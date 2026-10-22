@@ -1,16 +1,25 @@
-## Hi there 👋
+# Renzo Balestrero
 
-<!--
-**RBalestrero/RBalestrero** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+**Backend Developer · RFID · Automatización** — Buenos Aires, Argentina
 
-Here are some ideas to get you started:
+Especialista en soluciones RFID, desarrollo backend e integración hardware-software en [TANGOID](https://www.tangoid.com.ar).
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+- Portfolio web: [rbalestrero.github.io/RBalestrero](https://rbalestrero.github.io/RBalestrero/)
+- LinkedIn: [renzo-balestrero](https://linkedin.com/in/renzo-balestrero)
+- Email: renzo.balestrero@outlook.com
+
+### Stack
+
+`Node.js` · `Express` · `Python/FastAPI` · `React` · `TypeScript` · `Java` · `Kotlin` · `PostgreSQL` · `Docker` · RFID UHF (Zebra)
+
+### Local
+
+```bash
+npm install
+npm run dev
+```
+
+```bash
+npm run build
+npm run deploy   # publica en GitHub Pages (gh-pages)
+```
