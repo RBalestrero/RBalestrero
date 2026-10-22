@@ -22,8 +22,16 @@ function statusClass(status: (typeof projects)[number]['status']) {
   return 'badge badge--demo'
 }
 
+const navItems = [
+  { href: '#proyectos', label: 'Proyectos' },
+  { href: '#galeria', label: 'Galería' },
+  { href: '#experiencia', label: 'Experiencia' },
+  { href: '#contacto', label: 'Contacto' },
+] as const
+
 export default function App() {
   const [navSolid, setNavSolid] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
   const [filter, setFilter] = useState<(typeof projectCategories)[number]>('Todos')
 
   useEffect(() => {
@@ -33,10 +41,27 @@ export default function App() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  useEffect(() => {
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   const visibleProjects = useMemo(() => {
     if (filter === 'Todos') return projects
     return projects.filter((project) => project.category === (filter as ProjectCategory))
   }, [filter])
+
+  const closeMenu = () => setMenuOpen(false)
 
   return (
     <div className="site">
@@ -44,9 +69,11 @@ export default function App() {
         Saltar al contenido
       </a>
 
-      <header className={`nav ${navSolid ? 'nav--solid' : 'nav--hero'}`}>
+      <header
+        className={`nav ${navSolid || menuOpen ? 'nav--solid' : 'nav--hero'}${menuOpen ? ' is-open' : ''}`}
+      >
         <div className="wrap nav__inner">
-          <a className="nav__brand" href="#top">
+          <a className="nav__brand" href="#top" onClick={closeMenu}>
             <img
               className="nav__avatar"
               src={photoSrc}
@@ -54,25 +81,42 @@ export default function App() {
               width={32}
               height={32}
             />
-            {profile.name}
+            <span className="nav__brand-text">{profile.name}</span>
           </a>
-          <nav aria-label="Principal">
+
+          <button
+            type="button"
+            className="nav__toggle"
+            aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+            aria-expanded={menuOpen}
+            aria-controls="nav-menu"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span className="nav__toggle-bar" />
+            <span className="nav__toggle-bar" />
+            <span className="nav__toggle-bar" />
+          </button>
+
+          <nav id="nav-menu" className="nav__menu" aria-label="Principal">
             <ul className="nav__links">
-              <li>
-                <a href="#proyectos">Proyectos</a>
-              </li>
-              <li>
-                <a href="#galeria">Galería</a>
-              </li>
-              <li>
-                <a href="#experiencia">Experiencia</a>
-              </li>
-              <li>
-                <a href="#contacto">Contacto</a>
-              </li>
+              {navItems.map((item) => (
+                <li key={item.href}>
+                  <a href={item.href} onClick={closeMenu}>
+                    {item.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </nav>
         </div>
+        {menuOpen ? (
+          <button
+            type="button"
+            className="nav__backdrop"
+            aria-label="Cerrar menú"
+            onClick={closeMenu}
+          />
+        ) : null}
       </header>
 
       <main id="top" tabIndex={-1}>
